@@ -1,0 +1,15 @@
+Hi 
+We
+Like
+to
+make
+code
+that
+algorithms
+badly
+ok
+anyway
+thanks
+for
+visiting
+...
