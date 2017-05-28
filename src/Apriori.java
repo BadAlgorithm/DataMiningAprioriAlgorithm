@@ -5,6 +5,7 @@ import models.Item;
 import models.Transaction;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -19,18 +20,15 @@ public class Apriori {
     }
 
     public void computeApriori(int minSupport, List<Transaction> transactions) {
-        HashMap<String, Integer> itemFrequencies = new HashMap<>();
-        for (Transaction transaction: transactions){
-            for (Item item : transaction.getItems()){
-                String itemId = item.getId();
-                if (!itemFrequencies.containsKey(itemId)){
-                    itemFrequencies.put(itemId, 1);
-                } else {
-                    itemFrequencies.put(itemId, itemFrequencies.get(itemId) + 1);
-                }
-            }
-        }
-        System.out.println(itemFrequencies);
+        Map<String, Integer> itemFrequencies = new HashMap<>();
+        List<Pattern> patterns = new ArrayList<>();
+        transactions.forEach(transaction -> transaction.getItems().forEach(item -> {
+                itemFrequencies.putIfAbsent(item.getId(), 0);
+                itemFrequencies.put(item.getId(), itemFrequencies.get(item.getId()) + 1);
+            }));
+        itemFrequencies.forEach((k, v) -> {
+
+        });
     }
 
     public void computeApriori(int minSupport, JsonObject transactions) {
