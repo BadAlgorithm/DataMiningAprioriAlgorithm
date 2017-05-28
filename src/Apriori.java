@@ -1,9 +1,12 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import models.Item;
+import models.Transaction;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by minir on 27/05/2017.
@@ -13,6 +16,21 @@ public class Apriori {
 
     public Apriori() {
 
+    }
+
+    public void computeApriori(int minSupport, List<Transaction> transactions) {
+        HashMap<String, Integer> itemFrequencies = new HashMap<>();
+        for (Transaction transaction: transactions){
+            for (Item item : transaction.getItems()){
+                String itemId = item.getId();
+                if (!itemFrequencies.containsKey(itemId)){
+                    itemFrequencies.put(itemId, 1);
+                } else {
+                    itemFrequencies.put(itemId, itemFrequencies.get(itemId) + 1);
+                }
+            }
+        }
+        System.out.println(itemFrequencies);
     }
 
     public void computeApriori(int minSupport, JsonObject transactions) {

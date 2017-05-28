@@ -1,8 +1,12 @@
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import models.Transaction;
+import util.TransactionManager;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class Main {
 
@@ -10,9 +14,10 @@ public class Main {
         System.out.println("Hello World!");
         long startTime = System.nanoTime();
         try {
-            String fileString = new String(Files.readAllBytes(Paths.get("./json_data_nodescp.json")));
+            String fileString = new String(Files.readAllBytes(Paths.get("./json_data.json")));
             JsonObject dataJson = new JsonParser().parse(fileString).getAsJsonObject();
-            new Apriori().computeApriori(400, dataJson);
+            List<Transaction> transactions = TransactionManager.convertJsonTransactions(dataJson);
+            new Apriori().computeApriori(400, transactions);
         } catch (IOException e) {
             e.printStackTrace();
         }
