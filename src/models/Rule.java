@@ -7,13 +7,25 @@ import java.util.List;
  */
 public class Rule {
 
-    private List<Item> ruleItems;
-    private Item appliedToItem;
-    private double condifidence;
+    private final List<Item> _ruleItems;
+    private final Item _appliedToItem;
+    private final double _condifidence;
 
-    public Rule(List<Item> ruleItems, Item appliedToItem, double condifidence) {
-        this.ruleItems = ruleItems;
-        this.appliedToItem = appliedToItem;
-        this.condifidence = condifidence;
+    public Rule(List<Item> ruleItems, Item appliedToItem, double confidence) {
+        _ruleItems = ruleItems;
+        _appliedToItem = appliedToItem;
+        _condifidence = confidence;
+    }
+
+    public Item getAppliedToItem() {
+        return _appliedToItem;
+    }
+
+    public double getCondifidence() {
+        return _condifidence;
+    }
+
+    public List<Item> getRuleItems() {
+        return _ruleItems;
     }
 }

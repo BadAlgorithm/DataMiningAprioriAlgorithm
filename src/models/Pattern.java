@@ -7,12 +7,12 @@ import java.util.List;
  */
 public class Pattern {
 
-    private List<Item> items;
-    private int support;
+    private final List<Item> _items;
+    private final int _support;
 
     public Pattern(List<Item> items, int support) {
-        this.items = items;
-        this.support = support;
+        _items = items;
+        _support = support;
     }
 
     public void getSimilarity(){
@@ -20,11 +20,11 @@ public class Pattern {
     }
 
     public List<Item> getItems() {
-        return items;
+        return _items;
     }
 
     public int getSupport() {
-        return support;
+        return _support;
     }
 
     public Pattern incrementSupport() {
