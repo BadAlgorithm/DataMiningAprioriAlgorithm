@@ -27,4 +27,9 @@ public class Item {
     public String getDescription() {
         return description;
     }
+
+    @Override
+    public String toString() {
+        return "Stock Code: " +  id + "\n" + "Description: " + description + "\n";
+    }
 }
