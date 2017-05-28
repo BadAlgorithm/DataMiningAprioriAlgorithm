@@ -22,4 +22,9 @@ public class Transaction {
     public String getTransId() {
         return transId;
     }
+
+    @Override
+    public String toString() {
+        return "Invoice #: " + transId + "\n" + items.stream().map(Object::toString).reduce("", String::concat);
+    }
 }

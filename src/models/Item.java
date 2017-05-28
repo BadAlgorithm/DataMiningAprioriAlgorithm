@@ -7,10 +7,10 @@ import java.util.Locale;
  */
 public class Item {
 
-    private String id;
-    private String description;
+    private final String id;
+    private final String description;
 
-    public Item(String description, String id) {
+    public Item(final String description, final String id) {
         this.description = description;
         this.id = id;
     }
@@ -26,5 +26,10 @@ public class Item {
 
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public String toString() {
+        return "Stock Code: " +  id + "\n" + "Description: " + description + "\n";
     }
 }
