@@ -2,16 +2,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import models.Item;
+import models.Pattern;
 import models.Transaction;
 
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-/**
- * Created by minir on 27/05/2017.
- */
 
 public class Apriori {
 
@@ -20,15 +15,12 @@ public class Apriori {
     }
 
     public void computeApriori(int minSupport, List<Transaction> transactions) {
-        Map<String, Integer> itemFrequencies = new HashMap<>();
-        List<Pattern> patterns = new ArrayList<>();
+        Map<String, Pattern> itemFrequencies = new HashMap<>();
         transactions.forEach(transaction -> transaction.getItems().forEach(item -> {
-                itemFrequencies.putIfAbsent(item.getId(), 0);
-                itemFrequencies.put(item.getId(), itemFrequencies.get(item.getId()) + 1);
+                itemFrequencies.putIfAbsent(item.getId(), new Pattern(Arrays.asList(item), 0));
+                itemFrequencies.put(item.getId(), itemFrequencies.get(item.getId()).incrementSupport());
             }));
-        itemFrequencies.forEach((k, v) -> {
 
-        });
     }
 
     public void computeApriori(int minSupport, JsonObject transactions) {

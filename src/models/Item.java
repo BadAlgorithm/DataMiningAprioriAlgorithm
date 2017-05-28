@@ -15,11 +15,6 @@ public class Item {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return String.format(Locale.ENGLISH, "Item - ID: %1s, Desc: %2s", this.id, this.description);
-    }
-
     public String getId() {
         return id;
     }

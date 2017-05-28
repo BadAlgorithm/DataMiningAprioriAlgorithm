@@ -26,4 +26,8 @@ public class Pattern {
     public int getSupport() {
         return support;
     }
+
+    public Pattern incrementSupport() {
+        return new Pattern(items, support + 1);
+    }
 }
