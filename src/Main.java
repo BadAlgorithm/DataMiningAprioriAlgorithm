@@ -9,18 +9,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Main {
-
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
+    public static void main(String[] args) throws IOException {
         long startTime = System.nanoTime();
-        try {
-            String fileString = new String(Files.readAllBytes(Paths.get("./json_data.json")));
-            JsonObject dataJson = new JsonParser().parse(fileString).getAsJsonObject();
-            List<Transaction> transactions = TransactionManager.convertJsonTransactions(dataJson);
-            new Apriori().computeApriori(400, transactions);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Apriori().computeApriori(700, new Preprocessing().convert("online_retail.csv"));
         System.out.println((System.nanoTime() - startTime) / 1000000000 + "s");
     }
 }
