@@ -1,3 +1,5 @@
+package models;
+
 /**
  * Created by minir on 28/05/2017.
  */
