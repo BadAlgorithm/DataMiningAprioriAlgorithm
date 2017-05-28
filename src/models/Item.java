@@ -1,30 +1,28 @@
 package models;
 
-import java.util.Locale;
-
 /**
  * Created by minir on 28/05/2017.
  */
 public class Item {
 
-    private final String id;
-    private final String description;
+    private final String _stockCode;
+    private final String _description;
 
-    public Item(final String description, final String id) {
-        this.description = description;
-        this.id = id;
+    public Item(final String description, final String stockCode) {
+        _description = description;
+        _stockCode = stockCode;
     }
 
-    public String getId() {
-        return id;
+    public String getStockCode() {
+        return _stockCode;
     }
 
     public String getDescription() {
-        return description;
+        return _description;
     }
 
     @Override
     public String toString() {
-        return "Stock Code: " +  id + "\n" + "Description: " + description + "\n";
+        return "Stock Code: " + _stockCode + "\n" + "Description: " + _description + "\n";
     }
 }

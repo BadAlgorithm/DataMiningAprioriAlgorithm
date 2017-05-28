@@ -8,58 +8,59 @@ import models.Transaction;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Created by minir on 27/05/2017.
+ */
+
 public class Apriori {
 
-    public Apriori() {
-
-    }
-
     public void computeApriori(int minSupport, List<Transaction> transactions) {
-        Map<String, Pattern> itemFrequencies = new HashMap<>();
-        transactions.forEach(transaction -> transaction.getItems().forEach(item -> {
-                itemFrequencies.putIfAbsent(item.getId(), new Pattern(Arrays.asList(item), 0));
-                itemFrequencies.put(item.getId(), itemFrequencies.get(item.getId()).incrementSupport());
-            }));
+        Map<String, Pattern> frequencies = new HashMap<>();
+        transactions.forEach(x -> x.getItems().forEach(y -> {
+            frequencies.putIfAbsent(y.getStockCode(), new Pattern(Arrays.asList(y), 0));
+            frequencies.put(y.getStockCode(), frequencies.get(y.getStockCode()).IncrementSupport());
 
+        }));
+
+        List<Pattern> frequentPatterns = new ArrayList<>();
+        frequencies.forEach((a, b) -> {
+            if (b.getSupport() >= minSupport)  {
+                frequentPatterns.add(b);
+            }
+        });
+        findFrequentPatterns(frequentPatterns, transactions, minSupport, new ArrayList<Pattern>());
     }
 
-    public void computeApriori(int minSupport, JsonObject transactions) {
-        Set<Map.Entry<String, JsonElement>> transactionSet = transactions.entrySet();
-        HashMap<String, Integer> itemFrequency = new HashMap<>();
-        List<List<String>> frequentItems = new ArrayList<>();
-        for (Map.Entry<String, JsonElement> entry : transactionSet) {
-            JsonArray items = entry.getValue().getAsJsonArray();
-            for (JsonElement itemElement : items) {
-                JsonObject item = itemElement.getAsJsonObject();
-                String stockCode = item.get("item").getAsString();
-                if (itemFrequency.containsKey(stockCode)) {
-                    itemFrequency.put(stockCode, itemFrequency.get(stockCode) + 1);
-                } else {
-                    itemFrequency.put(stockCode, 1);
-                }
-            }
-        }
+    private List<Pattern> findFrequentPatterns(List<Pattern> frequentPatterns, List<Transaction> transactions, int minSupport, List<Pattern> doneFrequentPatterns) {
+        List<Pattern> newPatterns = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> entry : itemFrequency.entrySet()) {
-            if (entry.getValue() >= minSupport) {
-                List<String> pattern = new ArrayList<>();
-                pattern.add(entry.getKey());
-                frequentItems.add(pattern);
-            }
+        for(Pattern fp: frequentPatterns) {
+            int startIndex = frequentPatterns.indexOf(fp);
+            if (startIndex >= frequentPatterns.size() - 1) break;
+
+            frequentPatterns.subList(startIndex + 1, frequentPatterns.size()).forEach(p -> {
+                List<Item> newList = new ArrayList<Item>(fp.getItems());
+                newList.addAll(p.getItems());
+                Collections.sort(newList, (a, b) -> a.getStockCode().compareTo(b.getStockCode()));
+
+                newPatterns.add(new Pattern(newList.stream().distinct().collect(Collectors.toList()), 0)); //Might not work as intended
+            });
         }
-        System.out.println("Starting analysing patterns");
-        Comparator<List<String>> comparator = (List<String> a, List<String> b) -> {
-            Double aVal = Similarity.similarity(a.get(0), a.get(1));
-            Double bVal = Similarity.similarity(b.get(0), b.get(1));
-            return bVal.compareTo(aVal);
-        };
-        List<List<String>> frequentPatterns = findFrequentPatterns(frequentItems, transactionSet, minSupport, new ArrayList<>());
-        Collections.sort(frequentPatterns, comparator);
-        System.out.println(frequentPatterns.toString());
+        newPatterns.forEach(x -> x.getItems().forEach(y -> System.out.println(y.getStockCode())));
+
+        Map<List<String>, Pattern> frequencies = new HashMap<>();
+        transactions.forEach(t -> {
+            List<Item> items = new ArrayList<Item>(t.getItems());
+            newPatterns.forEach();
+        });
+
+
+        return null;
     }
 
     private List<List<String>> findFrequentPatterns(List<List<String>> frequentPatterns, Set<Map.Entry<String, JsonElement>> transactionSet, int minSupport,List<List<String>> doneFrequentPatters) {
         List<List<String>> newPatterns = new ArrayList<>();
+
         for (List<String> freqPattern : frequentPatterns) {
             int startIndex = frequentPatterns.indexOf(freqPattern);
             if (startIndex >= frequentPatterns.size() - 1) {
