@@ -51,7 +51,7 @@ public class Apriori {
         Map<List<String>, Pattern> frequencies = new HashMap<>();
         transactions.forEach(t -> {
             List<Item> items = new ArrayList<Item>(t.getItems());
-            newPatterns.forEach();
+//            newPatterns.forEach();
         });
 
 
