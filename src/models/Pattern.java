@@ -42,6 +42,7 @@ public class Pattern {
     }
 
     public String toString() {
-        return "(pattern: " + compositeKey() + " support: " + _support + ")";
+        String compositeDesc = _items.stream().map(Item::getDescription).reduce("", (a, b) -> a + " " + b);
+        return "(pattern:" + compositeDesc + " support: " + _support + ")";
     }
 }

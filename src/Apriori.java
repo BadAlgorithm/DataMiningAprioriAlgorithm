@@ -1,8 +1,6 @@
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import models.Item;
 import models.Pattern;
+import models.Rule;
 import models.Transaction;
 
 import java.util.*;
@@ -14,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class Apriori {
 
-    public void computeApriori(int minSupport, List<Transaction> transactions) {
+    public List<Rule> computeApriori(int minSupport, double minConfidence, List<Transaction> transactions) {
         Map<String, Pattern> frequencies = new HashMap<>();
         transactions.forEach(x -> x.getItems().forEach(y -> {
             frequencies.putIfAbsent(y.getStockCode(), new Pattern(Arrays.asList(y), 0));
@@ -29,7 +27,9 @@ public class Apriori {
             }
         });
 
-        System.out.println(findFrequentPatterns(frequentPatterns, transactions, minSupport, new ArrayList<>()).toString());
+        List<Pattern> fp = findFrequentPatterns(frequentPatterns, transactions, minSupport, new ArrayList<>());
+
+        return rules(fp, transactions, minConfidence);
     }
 
     private List<Pattern> findFrequentPatterns(List<Pattern> frequentPatterns, List<Transaction> transactions, int minSupport, List<Pattern> doneFrequentPatterns) {
@@ -74,5 +74,20 @@ public class Apriori {
         } else {
             return findFrequentPatterns(newFrequentPatterns, transactions, minSupport, doneFrequentPatterns);
         }
+    }
+
+    private List<Rule> rules(List<Pattern> frequentPatterns, List<Transaction> transactions, double minConfidence) {
+        List<Rule> rules = new ArrayList<>();
+        frequentPatterns.forEach(fp -> fp.getItems().forEach(i -> {
+            List<Item> ruleItems = new ArrayList<Item>(fp.getItems());
+            ruleItems.remove(i);
+            rules.add(new Rule(ruleItems, i, 0, fp));
+        }));
+
+        transactions.forEach(t -> rules.forEach(r -> {
+            double ruleItemsSupport = transactions.stream().filter(x -> x.containsItems(r.getRuleItems())).collect(Collectors.toList()).size();
+            r.setConfidence((double) r.getPattern().getSupport() / ruleItemsSupport);
+        }));
+        return rules.stream().filter(r -> r.getCondifidence() >= minConfidence).collect(Collectors.toList());
     }
 }
