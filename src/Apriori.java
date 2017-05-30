@@ -18,7 +18,7 @@ public class Apriori {
         Map<String, Pattern> frequencies = new HashMap<>();
         transactions.forEach(x -> x.getItems().forEach(y -> {
             frequencies.putIfAbsent(y.getStockCode(), new Pattern(Arrays.asList(y), 0));
-            frequencies.put(y.getStockCode(), frequencies.get(y.getStockCode()).IncrementSupport());
+            frequencies.put(y.getStockCode(), frequencies.get(y.getStockCode()).incrementSupport());
 
         }));
 
