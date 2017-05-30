@@ -20,8 +20,9 @@ public class Preprocessing {
             transactionMap.get(line[0]).add(new Item(line[2], line[1]));
         });
         List<Transaction> transactions = transactionMap.entrySet().stream().map(transaction -> new Transaction(transaction.getKey(), transaction.getValue())).collect(Collectors.toList());
-        Collections.shuffle(transactions);
-
-        return transactions.subList(0, transactions.size() / 4);
+//        Collections.shuffle(transactions);
+//
+//        return transactions.subList(0, transactions.size() / 4);
+        return transactions;
     }
 }
