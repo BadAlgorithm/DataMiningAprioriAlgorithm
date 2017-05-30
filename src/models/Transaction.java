@@ -7,24 +7,24 @@ import java.util.List;
  */
 public class Transaction {
 
-    private List<Item> items;
-    private String transId;
+    private final List<Item> _items;
+    private final String _transId;
 
     public Transaction(String transId, List<Item> items) {
-        this.items = items;
-        this.transId = transId;
+        _items = items;
+        _transId = transId;
     }
 
     public List<Item> getItems() {
-        return items;
+        return _items;
     }
 
     public String getTransId() {
-        return transId;
+        return _transId;
     }
 
     @Override
     public String toString() {
-        return "Invoice #: " + transId + "\n" + items.stream().map(Object::toString).reduce("", String::concat);
+        return "Invoice #: " + _transId + "\n" + _items.stream().map(Object::toString).reduce("", String::concat);
     }
 }

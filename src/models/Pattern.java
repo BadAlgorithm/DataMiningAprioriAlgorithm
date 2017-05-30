@@ -28,6 +28,6 @@ public class Pattern {
     }
 
     public Pattern incrementSupport() {
-        return new Pattern(items, support + 1);
+        return new Pattern(_items, _support + 1);
     }
 }
