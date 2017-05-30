@@ -11,7 +11,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws IOException {
         long startTime = System.nanoTime();
-        new Apriori().computeApriori(700, new Preprocessing().convert("online_retail.csv"));
+        new Apriori().computeApriori(7000, new Preprocessing().convert("online_retail.csv"));
         System.out.println((System.nanoTime() - startTime) / 1000000000 + "s");
     }
 }
