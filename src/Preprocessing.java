@@ -19,6 +19,9 @@ public class Preprocessing {
             transactionMap.putIfAbsent(line[0], new ArrayList<>());
             transactionMap.get(line[0]).add(new Item(line[2], line[1]));
         });
-        return transactionMap.entrySet().stream().map(transaction -> new Transaction(transaction.getKey(), transaction.getValue())).collect(Collectors.toList());
+        List<Transaction> transactions = transactionMap.entrySet().stream().map(transaction -> new Transaction(transaction.getKey(), transaction.getValue())).collect(Collectors.toList());
+        Collections.shuffle(transactions);
+
+        return transactions.subList(0, transactions.size() / 4);
     }
 }

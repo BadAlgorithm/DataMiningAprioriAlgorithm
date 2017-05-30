@@ -28,7 +28,7 @@ public class Apriori {
         });
 
         List<Pattern> fp = findFrequentPatterns(frequentPatterns, transactions, minSupport, new ArrayList<>());
-
+        System.out.println(fp.toString());
         return rules(fp, transactions, minConfidence);
     }
 
@@ -78,16 +78,19 @@ public class Apriori {
 
     private List<Rule> rules(List<Pattern> frequentPatterns, List<Transaction> transactions, double minConfidence) {
         List<Rule> rules = new ArrayList<>();
+        System.out.println(frequentPatterns.size());
         frequentPatterns.forEach(fp -> fp.getItems().forEach(i -> {
             List<Item> ruleItems = new ArrayList<Item>(fp.getItems());
             ruleItems.remove(i);
             rules.add(new Rule(ruleItems, i, 0, fp));
         }));
+        System.out.println(rules.size());
 
-        transactions.forEach(t -> rules.forEach(r -> {
+        rules.forEach(r -> {
             double ruleItemsSupport = transactions.stream().filter(x -> x.containsItems(r.getRuleItems())).collect(Collectors.toList()).size();
             r.setConfidence((double) r.getPattern().getSupport() / ruleItemsSupport);
-        }));
+        });
+        System.out.println(rules.size());
         return rules.stream().filter(r -> r.getCondifidence() >= minConfidence).collect(Collectors.toList());
     }
 }
