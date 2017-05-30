@@ -1,6 +1,8 @@
 package models;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by minir on 28/05/2017.
@@ -8,7 +10,7 @@ import java.util.List;
 public class Pattern {
 
     private final List<Item> _items;
-    private final int _support;
+    private int _support;
 
     public Pattern(List<Item> items, int support) {
         _items = items;
@@ -29,5 +31,17 @@ public class Pattern {
 
     public Pattern incrementSupport() {
         return new Pattern(_items, _support + 1);
+    }
+
+    public void iHateJava() {
+        _support++;
+    }
+
+    public String compositeKey() {
+        return _items.stream().map(x -> x.getStockCode()).reduce("", (a, b) -> a + b);
+    }
+
+    public String toString() {
+        return "(pattern: " + compositeKey() + " support: " + _support + ")";
     }
 }

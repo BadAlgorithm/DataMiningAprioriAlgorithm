@@ -28,8 +28,8 @@ public class Apriori {
                 frequentPatterns.add(b);
             }
         });
+
         System.out.println(findFrequentPatterns(frequentPatterns, transactions, minSupport, new ArrayList<>()).toString());
-        ;
     }
 
     private List<Pattern> findFrequentPatterns(List<Pattern> frequentPatterns, List<Transaction> transactions, int minSupport, List<Pattern> doneFrequentPatterns) {
@@ -50,10 +50,22 @@ public class Apriori {
 
         transactions.forEach(t -> newPatterns.forEach(np -> {
             if (t.containsItems(np.getItems())) {
-                np = np.incrementSupport();
+                np.iHateJava();
             }
         }));
-        List<Pattern> newFrequentPatterns = newPatterns.stream().filter(np -> np.getSupport() >= minSupport).collect(Collectors.toList());
+
+
+        Set<String> compositeKeys = new HashSet<>();
+
+        List<Pattern> newFrequentPatterns = newPatterns.stream().filter(np -> np.getSupport() >= minSupport).filter(x -> {
+            if (compositeKeys.contains(x.compositeKey())) {
+                return false;
+            } else {
+                compositeKeys.add(x.compositeKey());
+                return true;
+            }
+        }).collect(Collectors.toList());
+
 
         doneFrequentPatterns.addAll(newFrequentPatterns);
 
