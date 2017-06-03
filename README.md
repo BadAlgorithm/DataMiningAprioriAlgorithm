@@ -1,6 +1,6 @@
-#Apriori Algorithm for CP3403 Data Mining
+# Apriori Algorithm for CP3403 Data Mining
 
-##How to run:
+## How to run:
 1. Arguments: \<filename\> \<min support\> \<min confidence\>
 2. In the command line run: java -jar DataMiningAprioriAlgorithm.jar online_retail.csv 800 0
 3. Wait approximately 1 minute
